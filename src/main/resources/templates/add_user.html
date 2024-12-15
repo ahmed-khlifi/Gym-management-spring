@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Membership Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8">
+                <h1 class="text-3xl font-bold text-white" th:if="${!forUpdate}">Gym Membership Signup</h1>
+                <h1 class="text-3xl font-bold text-white" th:if="${forUpdate}">Update</h1>
+
+                <p class="mt-2 text-blue-100" th:if="${!forUpdate}">Join our fitness community today!</p>
+            </div>
+            <form class="px-6 py-8 space-y-8" th:action="${forUpdate} ? @{/user/update} : @{/user/add-member}"
+                th:object="${user}" method="post">
+                <!-- Personal Information -->
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <i lucide-name="user" class="w-5 h-5 text-blue-600"></i>
+                        Personal Information
+                    </h2>
+                    <input type="text" required th:field="*{id}" th:if="${forUpdate}" hidden />
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">First Name</label>
+                            <input type="text" required th:field="*{nom}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" required th:field="*{prenom}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" required th:field="*{email}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                        </div>
+                        <div th:if="${!forUpdate}">
+                            <label class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" required th:field="*{password}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Membership Plans -->
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <i lucide-name="CheckCircle" class="w-5 h-5 text-blue-600"></i>
+                        Select Membership Plan
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="relative block cursor-pointer" th:each="model : ${modelAbonnement}">
+                            <input type="radio" class="peer sr-only" name="planId" th:value="${model.id}"
+                                th:checked="${model.id == user?.abonnement?.getModelAbonnement()?.getId()}" />
+                            <div
+                                class="rounded-lg border-2 border-gray-200 p-4 hover:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-50">
+                                <h3 class="font-semibold text-gray-900" th:text="${model.type}" />
+                                <p class="text-sm text-gray-500"><span th:text="${model.prix}" /> TND / month</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <!-- Membership Periiod -->
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <i lucide-name="check-circle" class="w-5 h-5 text-blue-600"></i>
+                        Select Membership Period
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" class="peer sr-only" name="period" th:value="1"
+                                th:checked="${forUpdate && user?.abonnement?.getDuree() == 1}" />
+                            <div
+                                class="rounded-lg border-2 border-gray-200 p-4 hover:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-50">
+                                <h3 class="font-semibold text-gray-900">One Month</h3>
+                            </div>
+                        </label>
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" class="peer sr-only" name="period" th:value="3"
+                                th:checked="${user?.abonnement?.getDuree() == 3}" />
+                            <div
+                                class="rounded-lg border-2 border-gray-200 p-4 hover:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-50">
+                                <h3 class="font-semibold text-gray-900">3 Months</h3>
+                            </div>
+                        </label>
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" class="peer sr-only" name="period" th:value="6"
+                                th:checked="${user?.abonnement?.getDuree() == 6}" />
+                            <div
+                                class="rounded-lg border-2 border-gray-200 p-4 hover:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-50">
+                                <h3 class="font-semibold text-gray-900">6 Months</h3>
+                            </div>
+                        </label>
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" class="peer sr-only" name="period" th:value="12"
+                                th:checked="${user?.abonnement?.getDuree() == 12}" />
+                            <div
+                                class="rounded-lg border-2 border-gray-200 p-4 hover:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-50">
+                                <h3 class="font-semibold text-gray-900">Year</h3>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Health Questionnaire -->
+                <!--  <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Health Questionnaire</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" />
+                            <label class="ml-3 text-sm text-gray-700">Do you have any heart conditions?</label>
+                        </div>
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" />
+                            <label class="ml-3 text-sm text-gray-700">Do you experience chest pain during physical
+                                activity?</label>
+                        </div>
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" />
+                            <label class="ml-3 text-sm text-gray-700">Do you have any joint problems?</label>
+                        </div>
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" />
+                            <label class="ml-3 text-sm text-gray-700">Are you currently taking any medications?</label>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Terms and Conditions -->
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <input type="checkbox"
+                            class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" />
+                        <label class="ml-3 text-sm text-gray-700">
+                            I agree to the <a href="#" class="text-blue-600 hover:text-blue-500">Terms and
+                                Conditions</a> and <a href="#" class="text-blue-600 hover:text-blue-500">Privacy
+                                Policy</a>.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <button type="submit"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Complete Signup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

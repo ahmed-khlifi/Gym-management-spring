@@ -1,0 +1,24 @@
+</html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+</head>
+
+<body>
+    <div>
+        <h1>List of users</h1>
+        <!-- Map users -->
+        <ul>
+            <!-- <li th:each="user : ${users}" th:text="${user.name}"></li> -->
+            <div th:each="user : ${users}">
+                <li th:text="${user.nom}"></li>
+            </div>
+        </ul>
+    </div>
+</body>
+
+</html>
