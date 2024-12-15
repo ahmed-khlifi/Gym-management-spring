@@ -11,6 +11,15 @@
 
 <body class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
+        <div class="mb-6">
+            <a th:href="@{/user/all}" id="back-button" class="flex items-center text-gray-600 hover:text-gray-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5m7 7-7-7 7-7" />
+                </svg>
+                Back to Members
+            </a>
+        </div>
         <div class="bg-white shadow-xl rounded-lg overflow-hidden">
             <div class="bg-gradient-to-r from-purple-600 to-purple-800 px-6 py-8">
                 <h1 class="text-3xl font-bold text-white">Create New Course</h1>
@@ -32,7 +41,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea required rows="4" placeholder="Describe the course content and objectives..."
+                            <textarea required rows="4" placeholder="Course content and objectives..."
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"></textarea>
                         </div>
                     </div>
@@ -49,9 +58,7 @@
                         <select required
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                             <option value="">Choose a coach...</option>
-                            <option value="1">Sarah Johnson - Yoga Specialist</option>
-                            <option value="2">Mike Thompson - HIIT Expert</option>
-                            <option value="3">Emma Davis - Pilates Instructor</option>
+                            <option value="1">Imed brahmi - Yoga Specialist</option>
                         </select>
                     </div>
                 </div>
@@ -63,13 +70,19 @@
                         Schedule
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Start Date</label>
-                            <input type="date" required
+                            <label class="block text-sm font-medium text-gray-700">End Date</label>
+                            <input type="time" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">End Date</label>
+                            <input type="time" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Jour</label>
                             <input type="date" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                         </div>
@@ -100,30 +113,6 @@
                     </div>
                 </div>
 
-                <!-- Pricing -->
-                <div class="space-y-6">
-                    <h2 class="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                        <i data-lucide="dollar-sign" class="w-5 h-5 text-purple-600"></i>
-                        Pricing
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Price per Session</label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm">$</span>
-                                </div>
-                                <input type="number" min="0" step="0.01" required
-                                    class="pl-7 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Package Discount (%)</label>
-                            <input type="number" min="0" max="100"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
-                        </div>
-                    </div>
-                </div>
 
                 <div class="pt-6">
                     <button type="submit"
