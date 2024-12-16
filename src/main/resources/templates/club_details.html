@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+    <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <a th:href="@{/club/all}" onClick={onBack} class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>
+                Back to Clubs
+            </a>
+
+            <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div>
+                            <h1 class="text-3xl font-bold text-white" th:text="${club.getNom()}"></h1>
+                            <div class="flex items-center mt-2 text-blue-100">
+                                <i data-lucide="map-pin" class="w-5 h-5 mr-2"></i>
+                                <span th:text="${club.getAdresse()}"></span>
+                            </div>
+                        </div>
+                        <i class="mt-4 md:mt-0 bg-white/10 rounded-lg px-4 py-2 text-white flex items-center">
+                            <i data-lucide="users" class="w-5 h-5 mr-2"></i>
+                            <span>55 active members</span>
+                        </i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <!-- iagme salle -->
+                        <div id="gallery" class="space-y-4">
+                            <h2 class="text-xl font-semibold text-gray-900">Gallery</h2>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button
+                                    class="relative aspect-video rounded-lg overflow-hidden hover:opacity-90 transition-opacity"
+                                    onclick="selectedImageIndex = 0; openModal();">
+                                    <img src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=800"
+                                        alt="Club view 1" class="w-full h-full object-cover" />
+                                </button>
+                                <button
+                                    class="relative aspect-video rounded-lg overflow-hidden hover:opacity-90 transition-opacity"
+                                    onclick="selectedImageIndex = 1; openModal();">
+                                    <img src="https://images.unsplash.com/photo-1596357395217-80de13130e92?w=800"
+                                        alt="Club view 1" class="w-full h-full object-cover" />
+                                </button>
+                                <button
+                                    class="relative aspect-video rounded-lg overflow-hidden hover:opacity-90 transition-opacity"
+                                    onclick="selectedImageIndex = 2; openModal();">
+                                    <img src="https://images.unsplash.com/photo-1637666062717-1c6bcfa4a4df?w=800"
+                                        alt="Club view 1" class="w-full h-full object-cover" />
+                                </button>
+                                <button
+                                    class="relative aspect-video rounded-lg overflow-hidden hover:opacity-90 transition-opacity"
+                                    onclick="selectedImageIndex = 3; openModal();">
+                                    <img src="https://images.unsplash.com/photo-1598136490941-30d885318abd?w=800"
+                                        alt="Club view 1" class="w-full h-full object-cover" />
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Modal for selected image -->
+                        <div id="modal"
+                            class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+                            <div class="relative max-w-4xl w-full mx-4">
+                                <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300">
+                                    <i data-lucide="x" class="w-6 h-6"></i>
+                                </button>
+
+                                <img id="modal-image" class="w-full h-auto rounded-lg" alt="Selected view" />
+
+                                <button id="prev-image"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300">
+                                    <i data-lucide="chevron-left" class="w-8 h-8"></i>
+                                </button>
+
+                                <button id="next-image"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300">
+                                    <i data-lucide="chevron-right" class="w-8 h-8"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- salles -->
+                        <div class="mt-8">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Training Rooms</h2>
+                            <div th:each="room : ${club.getSalles()}" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div key={room.id} class="bg-gray-100 rounded-lg p-4 flex items-start space-x-4">
+                                    <i data-lucide="door-closed" class="w-5 h-5 text-gray-400 mt-1"></i>
+                                    <div>
+                                        <h3 class="font-medium text-gray-900" th:text="${room.getNom()}"></h3>
+                                        <p class="text-sm text-gray-500"><span th:text="${room.getCapacite()}" /> person
+                                            capacity</p>
+                                        <p class="text-sm text-gray-500">N° <span th:text="${room.getId()}" /></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- list des cours -->
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Class For this week</h2>
+                            <div class="space-y-4 mb-2" th:each="cour : ${cours}">
+                                <div class="bg-gray-100 rounded-lg p-4">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="font-medium text-gray-900 mb-2" th:text="${cour.nom_jour}" />
+                                        <span class=" text-gray-600 mb-2   text-sm" th:text="${cour.jour}" />
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between text-sm">
+                                            <div class="flex items-center text-gray-600">
+                                                <i data-lucide="clock" class="w-4 h-4 mr-2"></i>
+                                                <span><span th:text="${#dates.format(cour.heure_debut, 'HH:mm')}" /> -
+                                                    <span th:text="${#dates.format(cour.heure_fin, 'HH:mm')}" /></span>
+                                            </div>
+                                            <span class="font-medium text-gray-900" th:text="${cour.nom}"></span>
+                                            <!-- <span class="text-gray-500" th:text="${cour.coach}">Ahmed Khelifi</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4">Location</h2>
+                            <!-- <GoogleMap address={`${club.address}, ${club.city}`} /> -->
+                            <div class="aspect-video rounded-lg overflow-hidden">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3876.886393724264!2d10.109287000000002!3d36.8020423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd3300384dd3a9%3A0x4ce486bf4cfa8d67!2sGym%20plus%20Denden!5e1!3m2!1sen!2stn!4v1734380190682!5m2!1sen!2stn"
+                                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script>
+        // Array of image URLs
+        function getGalleryImages() {
+            const imgElements = document.querySelectorAll('#gallery img');
+            const images = Array.from(imgElements).map(img => img.src);
+            return images;
+        }
+        const images = getGalleryImages();
+
+        const gallery = document.querySelector('#gallery .grid');
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modal-image');
+        const closeModal = document.getElementById('close-modal');
+        const prevImage = document.getElementById('prev-image');
+        const nextImage = document.getElementById('next-image');
+
+        let selectedImageIndex = null;
+
+
+
+        // Open the modal
+        function openModal() {
+            if (selectedImageIndex !== null) {
+                modalImage.src = images[selectedImageIndex];
+                modal.classList.remove('hidden');
+            }
+        }
+
+        // Close the modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            selectedImageIndex = null;
+        });
+
+        // Show the previous image
+        prevImage.addEventListener('click', () => {
+            if (selectedImageIndex !== null) {
+                selectedImageIndex = (selectedImageIndex - 1 + images.length) % images.length;
+                openModal();
+            }
+        });
+
+        // Show the next image
+        nextImage.addEventListener('click', () => {
+            if (selectedImageIndex !== null) {
+                selectedImageIndex = (selectedImageIndex + 1) % images.length;
+                openModal();
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>

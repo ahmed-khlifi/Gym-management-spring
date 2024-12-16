@@ -26,4 +26,8 @@ public class CoursService {
         return coursRepository.save(cours);
     }
 
+    public List<Object[]> findCoursesByClubIdForCurrentWeek(Long clubId) {
+        return coursRepository.findCoursesByClubIdForCurrentWeek(clubId);
+    }
+
 }
