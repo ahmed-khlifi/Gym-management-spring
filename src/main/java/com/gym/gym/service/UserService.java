@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gym.gym.model.ModelAbonnementEnum;
 import com.gym.gym.model.Role;
 import com.gym.gym.model.User;
 import com.gym.gym.repository.UserRepository;
@@ -24,6 +25,10 @@ public class UserService {
 
     public List<User> findByRole(Role role) {
         return userRepository.findByRole(role);
+    }
+
+    public List<User> getUsersByMembershipTypeAndName(ModelAbonnementEnum type, String name) {
+        return userRepository.getUsersByMembershipTypeAndName(type, name);
     }
 
     public void save(User user, Long planId, int period) {
