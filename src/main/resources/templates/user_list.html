@@ -33,35 +33,38 @@
 <body class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
         <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-            <div class="px-6 py-8 border-b border-gray-200">
-                <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-                    <h1 class="text-2xl font-bold text-gray-700">Gym Members</h1>
-                    <div class="flex space-x-4">
-                        <div class="relative">
-                            <input id="search-bar" type="text" placeholder="Search members..."
-                                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
-                            <i data-lucide="Search" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
+            <form th:method="GET" th:action="@{'/user/all'}">
+                <div class="px-6 py-8 border-b border-gray-200">
+                    <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                        <h1 class="text-2xl font-bold text-gray-700">Gym Members</h1>
+                        <div class="flex space-x-4">
+                            <div class="relative">
+                                <input id="search-bar" type="text" placeholder="Search members by name..."
+                                    th:value="${name}" name="name"
+                                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+                                <i data-lucide="Search" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
+                            </div>
+                            <div class="relative">
+                                <select id="filter-type" name="type"
+                                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 appearance-none"
+                                    th:value="${type}">
+                                    <option value="" th:selected="${type == null}">All Types</option>
+                                    <option th:each="model : ${modelAbonnement}" th:value="${model.type}"
+                                        th:text="${model.type}" th:selected="${type == model.type}">
+                                    </option>
+                                </select>
+                                <i data-lucide="Filter" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
+                            </div>
 
+                            <!-- AAdd new user -->
+                            <button type="submit"
+                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Search
+                            </button>
                         </div>
-                        <div class="relative">
-                            <select value={filterType}
-                                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 appearance-none">
-                                <option value="all">All Types</option>
-                                <option value="basic" th:each="model: ${modelAbonnement}">
-                                    <span th:text="${model.getType()}" />
-                                </option>
-                            </select>
-                            <i data-lucide="Filter" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
-                        </div>
-
-                        <!-- AAdd new user -->
-                        <a href="/user/add-member" id="add-user"
-                            class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-500 focus:ring-opacity-50">
-                            Add New Member
-                        </a>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">

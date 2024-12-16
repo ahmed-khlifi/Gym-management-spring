@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.gym.gym.model.ModelAbonnementEnum;
 import com.gym.gym.model.Role;
 import com.gym.gym.model.User;
 import com.gym.gym.service.ModelAbonnementService;
@@ -31,8 +32,11 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public String getAllMembers(Model model) {
-        model.addAttribute("users", this.userService.findByRole(Role.USER));
+    public String getAllMembers(
+            Model model,
+            @RequestParam(value = "type", required = false) ModelAbonnementEnum type,
+            @RequestParam(required = false) String name) {
+        model.addAttribute("users", this.userService.getUsersByMembershipTypeAndName(type, name));
         model.addAttribute("modelAbonnement", this.modelAbonnement.findAll());
         return "user_list";
     }
