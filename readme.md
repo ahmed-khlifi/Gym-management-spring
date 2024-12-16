@@ -10,3 +10,9 @@ INSERT INTO `model_abonnement` (`id`, `prix`, `type`) VALUES
 ```
 
 Make sure to execute this statement as it is important and it is directly mapped with pre-defined enums `model_abonnement` table with the initial data.
+
+## Entity Relationship Diagram
+
+Below is the entity relationship diagram for the database. This diagram illustrates the relationships between different tables and their attributes.
+
+![Entity Relationship Diagram](./scheme.png)
