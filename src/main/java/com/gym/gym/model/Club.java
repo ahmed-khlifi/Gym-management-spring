@@ -41,4 +41,9 @@ public class Club {
     // Relation avec la table User
     @OneToMany(mappedBy = "club")
     private List<User> users;
+
+    @Override
+    public String toString() {
+        return nom + " - " + adresse;
+    }
 }
