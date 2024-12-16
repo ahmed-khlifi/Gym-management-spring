@@ -10,14 +10,67 @@
 </head>
 
 <body class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto">
+    <!-- Select club  -->
+    <div th:if="${step == 1}" class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div class="mb-6">
-            <a th:href="@{/user/all}" id="back-button" class="flex items-center text-gray-600 hover:text-gray-900">
+            <a th:href="@{/}" id="back-button" class="flex items-center text-gray-600 hover:text-gray-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 12H5m7 7-7-7 7-7" />
                 </svg>
-                Back to Members
+                Back Home Page
+            </a>
+        </div>
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-600 to-purple-800 px-6 py-8">
+                    <h1 class="text-3xl font-bold text-white">Select a Club</h1>
+                    <p class="mt-2 text-purple-100">Choose a club to create a new course</p>
+                </div>
+
+                <div class="p-6">
+                    <div class="mb-6">
+                        <div class="relative">
+                            <input type="text" placeholder="Search by club name or city"
+                                class="pl-10 pr-4 py-2 w-full sm:w-64 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+                            <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" data-lucide="search"></svg>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div th:each="club: ${clubs}"
+                            class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200 text-left border border-gray-100 hover:border-purple-200">
+                            <h3 class="text-xl font-semibold text-gray-900" th:text="${club.getNom()}" />
+                            <div class="mt-2 flex items-center text-gray-600">
+                                <svg class="w-4 h-4 mr-2" data-lucide="map-pin"></svg>
+                                <span th:text="${club.getAdresse()}" />
+                            </div>
+                            <!-- <div class="mt-1 flex items-center text-gray-600">
+                                <svg class="w-4 h-4 mr-2" data-lucide="users"></svg>
+                                <span>150 members</span>
+                            </div> -->
+                            <a th:href="@{'/cours/create?step=2&clubId=' + ${club.getId()}}"
+                                class="mt-4 flex items-center text-purple-600 font-medium">
+                                Create course here
+                                <svg class="ml-2 w-4 h-4" data-lucide="arrow-right"></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create course form -->
+    <div th:if="${step == 2}" class="max-w-3xl mx-auto">
+        <div class="mb-6">
+            <a th:href="@{/cours/create?step=1}" id="back-button"
+                class="flex items-center text-gray-600 hover:text-gray-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5m7 7-7-7 7-7" />
+                </svg>
+                Back to Club Selection
             </a>
         </div>
         <div class="bg-white shadow-xl rounded-lg overflow-hidden">
@@ -25,8 +78,7 @@
                 <h1 class="text-3xl font-bold text-white">Create New Course</h1>
                 <p class="mt-2 text-purple-100">Set up a new fitness course for your members</p>
             </div>
-
-            <form class="px-6 py-8 space-y-8">
+            <form class="px-6 py-8 space-y-8" th:action="@{/cours/create}" method="post" th:object="${cours}">
                 <!-- Basic Course Information -->
                 <div class="space-y-6">
                     <h2 class="text-xl font-semibold text-gray-900 flex items-center gap-2">
@@ -36,17 +88,33 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Course Name</label>
-                            <input type="text" required placeholder="e.g., Advanced Yoga"
+                            <input type="text" required placeholder="e.g., Advanced Yoga" th:field="*{nom}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Description</label>
                             <textarea required rows="4" placeholder="Course content and objectives..."
+                                th:field="*{description}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"></textarea>
                         </div>
                     </div>
                 </div>
-
+                <!-- Salle -->
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <i data-lucide="home" class="w-5 h-5 text-purple-600"></i>
+                        Training Room
+                    </h2>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Select Room</label>
+                        <select required th:field="*{salle}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                            <option value="" disabled selected>Choose a Room...</option>
+                            <option value="1" th:each="salle: ${salles}" th:text="${salle.getNom()}"
+                                th:value="${salle.getId()}"></option>
+                        </select>
+                    </div>
+                </div>
                 <!-- Coach Selection -->
                 <div class="space-y-6">
                     <h2 class="text-xl font-semibold text-gray-900 flex items-center gap-2">
@@ -55,10 +123,11 @@
                     </h2>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Select Coach</label>
-                        <select required
+                        <select required th:field="*{coach}"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
-                            <option value="">Choose a coach...</option>
-                            <option value="1">Imed brahmi - Yoga Specialist</option>
+                            <option value="" disabled selected>Choose a coach...</option>
+                            <option value="1" th:each="coach: ${coaches}" th:text="${coach.getUser().getFullName()}"
+                                th:value="${coach.getId()}">Imed brahmi - Yoga Specialist</option>
                         </select>
                     </div>
                 </div>
@@ -72,18 +141,23 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">End Date</label>
-                            <input type="time" required
+                            <label class="block text-sm font-medium text-gray-700">Start Time</label>
+                            <input type="time" required th:field="*{heureDebut}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">End Date</label>
-                            <input type="time" required
+                            <label class="block text-sm font-medium text-gray-700">End Time</label>
+                            <input type="time" required th:field="*{heureFin}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Jour</label>
-                            <input type="date" required
+                            <label class="block text-sm font-medium text-gray-700">Day of the course</label>
+                            <input type="date" required th:field="*{jour}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Duration ( In Hours )</label>
+                            <input type="number" min="1" required th:field="*{duree}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                         </div>
                     </div>
@@ -98,16 +172,18 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Maximum Participants</label>
-                            <input type="number" min="1" required
+                            <input type="number" min="1" required th:field="*{capacite}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Difficulty Level</label>
-                            <select required
+                            <label class="block text-sm font-medium text-gray-700">Targuet Audiance</label>
+                            <select required th:field="*{cible}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
-                                <option value="beginner">Beginner</option>
-                                <option value="intermediate">Intermediate</option>
-                                <option value="advanced">Advanced</option>
+                                <option value="" disabled selected>Choose an audiance...</option>
+                                <option th:value="'KIDS'">Kids</option>
+                                <option th:value="'ADULTS'">Adults</option>
+                                <option th:value="'SENIORS'">Seniors</option>
+                                <option th:value="'ALL'">All</option>
                             </select>
                         </div>
                     </div>

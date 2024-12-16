@@ -52,4 +52,11 @@ public class User {
         boolean active = this.abonnement.getDateFin().after(new java.util.Date());
         return active ? "Active" : "Expired";
     }
+
+    /**
+     * Get user ful name
+     */
+    public String getFullName() {
+        return this.nom + " " + this.prenom;
+    }
 }

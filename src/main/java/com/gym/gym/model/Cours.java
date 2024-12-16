@@ -2,6 +2,8 @@ package com.gym.gym.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,24 +26,21 @@ public class Cours {
     private String description;
 
     @Column(nullable = false)
-    private String type;
-
-    @Column(nullable = false)
     private float duree;
 
     @Column(nullable = false)
-    private String niveau;
-
-    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date jour;
 
     @Column(nullable = false, name = "heure_debut")
     @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private Date heureDebut;
 
     @Column(nullable = false, name = "heure_fin")
     @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private Date heureFin;
 
     @Column(nullable = true)
