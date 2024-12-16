@@ -22,6 +22,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> findByRole(Role role) {
+        return userRepository.findByRole(role);
+    }
+
     public void save(User user, Long planId, int period) {
         user.setRole(Role.USER);
         User newUser = userRepository.save(user);
