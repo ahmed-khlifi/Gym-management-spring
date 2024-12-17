@@ -10,6 +10,7 @@ import com.gym.gym.repository.SalleRepository;
 
 @Service
 public class SalleService {
+
     @Autowired
     private SalleRepository salleRepository;
 
@@ -22,7 +23,14 @@ public class SalleService {
     }
 
     public Salle findById(Long id) {
-        return salleRepository.findById(id).get();
+        return salleRepository.findById(id).orElse(null); // Handle null safely
     }
 
+    public Salle save(Salle salle) {
+        return salleRepository.save(salle);
+    }
+
+    public void deleteById(Long id) {
+        salleRepository.deleteById(id);
+    }
 }

@@ -19,6 +19,14 @@ public class ModelAbonnementService {
     }
 
     public ModelAbonnement findById(Long id) {
-        return modelAbonnementRepository.findById(id).get();
+        return modelAbonnementRepository.findById(id).orElse(null); // Handle null safely
+    }
+
+    public ModelAbonnement save(ModelAbonnement modelAbonnement) {
+        return modelAbonnementRepository.save(modelAbonnement);
+    }
+
+    public void deleteById(Long id) {
+        modelAbonnementRepository.deleteById(id);
     }
 }

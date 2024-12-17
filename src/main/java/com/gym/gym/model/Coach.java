@@ -27,4 +27,36 @@ public class Coach {
     // Relation avec la table Cours
     @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
     private List<Cours> cours;
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<Cours> getCours() {
+        return cours;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public float getPrixCours() {
+        return prixCours;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setPrixCours(float prixCours) {
+        this.prixCours = prixCours;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setCours(List<Cours> cours) {
+        this.cours = cours;
+    }
 }

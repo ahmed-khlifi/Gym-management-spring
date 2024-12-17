@@ -59,4 +59,29 @@ public class Cours {
     @ManyToOne
     @JoinColumn(name = "coach_id")
     private Coach coach;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+
+
+
+
+
+
+
 }

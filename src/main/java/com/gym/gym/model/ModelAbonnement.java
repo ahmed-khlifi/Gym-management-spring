@@ -17,6 +17,23 @@ public class ModelAbonnement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public ModelAbonnementEnum getType() {
+        return type;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public float getPrix() {
+        return prix;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ModelAbonnementEnum type;

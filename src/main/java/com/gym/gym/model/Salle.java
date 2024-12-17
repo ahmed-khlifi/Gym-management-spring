@@ -30,4 +30,23 @@ public class Salle {
     // Relation avec la table Cours
     @OneToMany(mappedBy = "salle", cascade = CascadeType.ALL)
     private List<Cours> cours;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 }
+
+

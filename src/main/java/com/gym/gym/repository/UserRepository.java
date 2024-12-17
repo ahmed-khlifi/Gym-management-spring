@@ -1,6 +1,7 @@
 package com.gym.gym.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ import com.gym.gym.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     public List<User> findByRole(Role role);
-
+    Optional<User> findByUsername(String username);
     // Method to fetch users based on role and optionally filter by membership type
     @Query("SELECT u FROM User u " +
             "JOIN u.abonnement a " +
