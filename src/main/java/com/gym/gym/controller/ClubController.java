@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.gym.gym.model.Club;
 import com.gym.gym.service.ClubService;
 import com.gym.gym.service.CoursService;
-import com.gym.gym.service.SalleService;
+
 
 import org.springframework.web.bind.annotation.PostMapping;
 
