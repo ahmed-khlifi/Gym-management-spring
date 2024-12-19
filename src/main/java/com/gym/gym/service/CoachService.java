@@ -24,7 +24,8 @@ public class CoachService {
     }
 
     public Coach findById(Long userId) {
-        return coachRepository.findByUserId(userId);
+        return coachRepository.findByUser_Id(userId)
+                .orElseThrow(() -> new RuntimeException("Coach not found for user ID: " + userId));
     }
 
     // by price
@@ -51,6 +52,7 @@ public class CoachService {
     }
 
     public boolean isUserAlreadyACoach(Long userId) {
-        return coachRepository.findByUsersId(userId).isPresent();
+        // return false;
+        return coachRepository.findByUser_Id(userId).isPresent();
     }
 }

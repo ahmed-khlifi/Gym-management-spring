@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public interface CoachRepository extends JpaRepository<Coach, Long> {
 
-    Coach findByUserId(Long userId);
+    Optional<Coach> findByUser_Id(Long userId);
 
     // Find coaches by price range
     List<Coach> findByPrixCoursBetween(float minPrice, float maxPrice);
@@ -36,5 +36,5 @@ public interface CoachRepository extends JpaRepository<Coach, Long> {
     @Query("UPDATE Coach c SET c.prixCours = :prixCours WHERE c.id = :id")
     int updateCoachPrice(@Param("id") Long id, @Param("prixCours") float prixCours);
 
-    Optional<Coach> findByUsersId(Long userId);
+    // Optional<Coach> findByUsersId(Long userId);
 }
