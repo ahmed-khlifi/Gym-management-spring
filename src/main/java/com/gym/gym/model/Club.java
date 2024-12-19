@@ -3,6 +3,8 @@ package com.gym.gym.model;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,10 +30,12 @@ public class Club {
 
     @Column(nullable = false, name = "heure_overture")
     @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private Date heureOuverture;
 
     @Column(nullable = false, name = "heure_fermeture")
     @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private Date heureFermeture;
 
     // Relation avec la table Salle

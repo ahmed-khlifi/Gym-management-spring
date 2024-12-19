@@ -39,11 +39,17 @@
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-900 mb-4 sm:mb-0">Our Clubs</h1>
-                <!-- search bar -->
-                <div className="relative">
-                    <!-- <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i> -->
-                    <input type="text" placeholder="Search clubs by name..."
-                        class="pl-10 pr-4 py-2 w-full sm:w-64 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+                <div class="flex gap-4">
+                    <a th:href="@{'/club/create'}"
+                        class="cursor-pointer inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i data-lucide="plus-circle" className="h-5 w-5 mr-5"></i>
+                        <span class="mx-5"> Create Club</span>
+                    </a>
+                    <div className="relative">
+                        <!-- <i data-lucide="search" class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i> -->
+                        <input type="text" placeholder="Search clubs by name..."
+                            class="pl-10 pr-4 py-2 w-full sm:w-64 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+                    </div>
                 </div>
             </div>
 
