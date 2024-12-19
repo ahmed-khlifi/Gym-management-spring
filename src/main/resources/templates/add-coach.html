@@ -1,45 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Coach</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-gray-50 font-sans">
 
-<div th:if="${errorMessage}" class="text-red-500 text-center mt-4">
-    <p th:text="${errorMessage}"></p>
-</div>
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-2xl font-semibold text-gray-800 text-center">Add New Coach</h2>
-        <form action="/coaches/add" method="post" class="mt-6 space-y-4">
+<body class="min-h-screen bg-gray-100 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+<div class="max-w-4xl w-full">
+    <!-- Card Container -->
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Header Section -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-6">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-semibold text-white">Add New Coach</h1>
+                <a href="/coaches" class="text-sm text-white flex items-center gap-1 hover:text-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5m7 7-7-7 7-7" />
+                    </svg>
+                    Back to Coaches
+                </a>
+            </div>
+            <p class="mt-2 text-blue-100">Fill out the details below to register a new coach in the system.</p>
+        </div>
 
-            <!-- Price per Course -->
+        <!-- Form Section -->
+        <form action="/coaches/add" method="post" class="p-8 space-y-6">
+            <!-- Personal Information -->
             <div>
-                <label for="prixCours" class="block text-gray-700">Price per Course</label>
-                <input type="number" step="0.01" id="prixCours" name="prixCours" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" required/>
+                <h2 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                    <i lucide-name="user" class="w-5 h-5 text-blue-600"></i>
+                    Personal Information
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="nom" class="block text-sm font-medium text-gray-600">First Name</label>
+                        <input type="text" id="nom" name="nom" required
+                               class="mt-2 block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="prenom" class="block text-sm font-medium text-gray-600">Last Name</label>
+                        <input type="text" id="prenom" name="prenom" required
+                               class="mt-2 block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+                    <input type="email" id="email" name="email" required
+                           class="mt-2 block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="mt-6">
+                    <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
+                    <input type="password" id="password" name="password" required
+                           class="mt-2 block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
             </div>
 
-            <!-- Select User for Coach -->
+            <!-- Pricing -->
             <div>
-                <label for="user" class="block text-gray-700">Select User</label>
-                <select id="user" name="user.id" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" required>
-                    <option value="" disabled selected>Select a user</option>
-                    <th:block th:each="user : ${users}">
-                        <option th:value="${user.id}" th:text="${user.nom}"></option>
-                    </th:block>
-                </select>
+                <h2 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                    <i lucide-name="dollar-sign" class="w-5 h-5 text-blue-600"></i>
+                    Pricing Information
+                </h2>
+                <div>
+                    <label for="prixCours" class="block text-sm font-medium text-gray-600">Coaching Price (per hour)</label>
+                    <input type="number" id="prixCours" name="prixCours" required
+                           class="mt-2 block w-full px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
             </div>
 
             <!-- Submit Button -->
-            <div>
-                <button type="submit" class="w-full py-3 mt-4 bg-blue-600 text-white text-lg rounded-lg shadow-md hover:bg-blue-700 transition">Add Coach</button>
+            <div class="pt-4">
+                <button type="submit"
+                        class="w-full py-3 px-4 bg-blue-600 text-white rounded-md text-lg font-medium shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Add Coach
+                </button>
             </div>
         </form>
     </div>
 </div>
 
+<script>
+    lucide.createIcons();
+</script>
 </body>
+
 </html>

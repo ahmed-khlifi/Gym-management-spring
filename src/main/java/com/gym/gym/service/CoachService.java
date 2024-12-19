@@ -1,7 +1,9 @@
 package com.gym.gym.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +49,12 @@ public class CoachService {
         return coachRepository.updateCoachPrice(id, prixCours);
     }
 
+    @Transactional
     public void saveCoach(Coach coach) {
+        Optional<Coach> existingCoach = coachRepository.findByUser_Id(coach.getUser().getId());
+        if (existingCoach.isPresent()) {
+            throw new IllegalStateException("This user is already a coach.");
+        }
         coachRepository.save(coach);
     }
 
@@ -55,4 +62,5 @@ public class CoachService {
         // return false;
         return coachRepository.findByUser_Id(userId).isPresent();
     }
+
 }

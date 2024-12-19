@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Coach Details</title>
 </head>
 <body>
 <h1>Coach Details</h1>
-<p><strong>Name:</strong> <span th:text="${coach.user.nom}"></span></p>
+
+<p><strong>ID:</strong> <span th:text="${coach.id}"></span></p>
+<p><strong>Name:</strong> <span th:text="${coach.user.nom} + ' ' + ${coach.user.prenom}"></span></p>
 <p><strong>Email:</strong> <span th:text="${coach.user.email}"></span></p>
 <p><strong>Price per Course:</strong> <span th:text="${coach.prixCours}"></span></p>
-<p><strong>Courses Offered:</strong>
-<ul>
-    <li th:each="course : ${coach.cours}" th:text="${course.nom}"></li>
-</ul>
-</p>
+
 <a th:href="@{/coaches}">Back to List</a>
 </body>
 </html>

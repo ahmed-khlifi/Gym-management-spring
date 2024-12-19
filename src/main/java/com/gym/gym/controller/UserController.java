@@ -1,5 +1,7 @@
 package com.gym.gym.controller;
 
+import com.gym.gym.model.Coach;
+import com.gym.gym.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    private CoachService coachService;
+
     // Service
     private final UserService userService;
     private final ModelAbonnementService modelAbonnement;
@@ -72,10 +77,42 @@ public class UserController {
     }
 
     @PostMapping("/add-member")
-    public String addMember(@ModelAttribute User user, @RequestParam("planId") Long planId,
+    public String addMember(@ModelAttribute User user,
+                            @RequestParam("planId") Long planId,
             @RequestParam("period") int period) {
         this.userService.save(user, planId, period);
         return "redirect:/user/all";
+    }
+
+    @GetMapping("/add-coach")
+    public String addCoachForm(Model model) {
+        model.addAttribute("user", new User());  // empty user object for the form
+        model.addAttribute("forUpdate", false);  // flag to indicate it's an add form
+        return "add_coach";  // your form view
+    }
+
+    @PostMapping("/add-coach")
+    public String addCoach(@ModelAttribute User user,
+                           @RequestParam float prixCours,  // price for the course
+                           Model model) {
+        // Check if the user is already a coach
+        if (userService.isUserAlreadyACoach(user)) {
+            model.addAttribute("errorMessage", "This user is already a coach.");
+            return "add_coach";  // return the form with an error message
+        }
+
+        // Set the role 'COACH' and save the user as a coach
+        userService.saveCoach(user);
+
+        // Create a new coach object and set the price for the course
+        Coach coach = new Coach();
+        coach.setUser(user);
+        coach.setPrixCours(prixCours);
+
+        // Save the coach
+        coachService.saveCoach(coach);
+
+        return "redirect:/user/all";  // redirect to the user list or a specific page
     }
 
     @GetMapping("/delete/{id}")
