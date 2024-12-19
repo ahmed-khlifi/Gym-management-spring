@@ -10,12 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.gym.gym.model.Club;
 import com.gym.gym.service.ClubService;
 import com.gym.gym.service.CoursService;
-
 
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -39,13 +39,15 @@ public class ClubController {
     }
 
     @GetMapping("/create")
-    public String createClub() {
-        return new String();
+    public String createClub(Model model) {
+        model.addAttribute("club", new Club());
+        return "add_club";
     }
 
     @PostMapping("/create")
-    public String postMethodName() {
-        return new String();
+    public String createClub(Model model, @ModelAttribute Club club) {
+        clubService.save(club);
+        return "redirect:/club/all";
     }
 
     @GetMapping("/details/{id}")

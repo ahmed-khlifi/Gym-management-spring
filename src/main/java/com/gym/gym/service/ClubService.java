@@ -20,4 +20,8 @@ public class ClubService {
     public Club findById(Long id) {
         return clubRepository.findById(id).get();
     }
+
+    public void save(Club club) {
+        clubRepository.save(club);
+    }
 }
