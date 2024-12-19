@@ -1,7 +1,11 @@
 package com.gym.gym.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.gym.gym.model.Coach;
+import com.gym.gym.repository.CoachRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +17,15 @@ import com.gym.gym.repository.UserRepository;
 @Service
 public class UserService {
     @Autowired
+    private CoachService coachService;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private AbonnementService abonnementService;
     @Autowired
     private ModelAbonnementService modelAbonnement;
+    @Autowired
+    private CoachRepository coachRepository;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -29,6 +37,16 @@ public class UserService {
 
     public List<User> getUsersByMembershipTypeAndName(ModelAbonnementEnum type, String name) {
         return userRepository.getUsersByMembershipTypeAndName(type, name);
+    }
+
+    @Transactional
+    public void saveCoach(User user) {
+        user.setRole(Role.COACH);
+        User newUser = userRepository.save(user);
+        Coach coach = new Coach();
+        coach.setUser(newUser);
+        coachService.saveCoach(coach);
+        System.out.println("User saved with ID: " + user.getId());
     }
 
     public void save(User user, Long planId, int period) {
@@ -60,4 +78,11 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public boolean isUserAlreadyACoach(User user) {
+        Optional<Coach> coach = coachRepository.findByUser_Id(user.getId());
+        if (coach.isPresent()) {
+            return true; // User is already a coach
+        }
+        return user.getRole() == Role.COACH;
+    }
 }

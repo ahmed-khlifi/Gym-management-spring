@@ -36,5 +36,4 @@ public interface CoachRepository extends JpaRepository<Coach, Long> {
     @Query("UPDATE Coach c SET c.prixCours = :prixCours WHERE c.id = :id")
     int updateCoachPrice(@Param("id") Long id, @Param("prixCours") float prixCours);
 
-    // Optional<Coach> findByUsersId(Long userId);
 }
