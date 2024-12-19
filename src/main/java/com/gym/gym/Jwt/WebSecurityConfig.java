@@ -81,18 +81,18 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrfCustomizer -> csrfCustomizer.disable()) // Disable CSRF protection
-                .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
-                        .authenticationEntryPoint(unauthorizedHandler)) // Handle unauthorized requests
-                .sessionManagement(sessionManagementCustomizer -> sessionManagementCustomizer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Disable session creation
-                .authorizeHttpRequests(authorizeRequestsCustomizer -> authorizeRequestsCustomizer
-                        .requestMatchers("/api/auth/**", "/api/test/**", "/product/**").permitAll() // Allow public access
-                        .anyRequest().authenticated()); // Require authentication for all other requests
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/register")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/register")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/coaches/**")).permitAll()
+                .anyRequest().authenticated();
 
-        http.authenticationProvider(authenticationProvider()); // Use custom authentication provider
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); // Add JWT filter before default filter
+        http.authenticationProvider(authenticationProvider());
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

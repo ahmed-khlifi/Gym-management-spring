@@ -35,28 +35,14 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
      * @throws ServletException Si une erreur liée au servlet survient.
      */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
-
-        // Log de l'erreur
-        logger.error("Unauthorized error: {}", authException.getMessage());
-
-        // Configuration de la réponse HTTP
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-        // Construction du corps de la réponse
-        Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
-        body.put("path", request.getServletPath());
-
-        // Sérialisation du corps de la réponse en JSON
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), body);
-
-        // Envoi du code d'erreur
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        // Check if the response is already committed before calling sendError
+        if (!response.isCommitted()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+        } else {
+            // If response is already committed, log the error or take appropriate action
+            // Optionally, you can log the error
+            System.err.println("Response is already committed. Cannot send error.");
+        }
     }
 }

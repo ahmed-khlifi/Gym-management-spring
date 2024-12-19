@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     public List<User> findByRole(Role role);
     Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);  // Add this line
     // Method to fetch users based on role and optionally filter by membership type
     @Query("SELECT u FROM User u " +
             "JOIN u.abonnement a " +

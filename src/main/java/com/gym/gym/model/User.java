@@ -22,6 +22,18 @@ public class User {
     @Column(nullable = false, length = 255, unique = true)
     private String username;  // Add the username property here
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }

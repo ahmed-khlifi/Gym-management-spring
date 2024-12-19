@@ -60,6 +60,10 @@ public class Cours {
     @JoinColumn(name = "coach_id")
     private Coach coach;
 
+    public void setCoach(Coach coach) {
+        this.coach = coach;
+    }
+
     public Long getId() {
         return id;
     }

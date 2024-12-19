@@ -14,6 +14,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    // Load a user by username
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Fetch the user from the database using the repository
@@ -22,5 +23,15 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
         // Convert the User entity to UserDetails using your UserDetailsImp class
         return UserDetailsImp.build(user);
+    }
+
+    // Check if a user exists by username
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    // Method to save the user
+    public void save(User user) {
+        userRepository.save(user);
     }
 }

@@ -1,6 +1,8 @@
 package com.gym.gym.RestController;
 
 import com.gym.gym.model.Coach;
+import com.gym.gym.model.Cours;
+import com.gym.gym.repository.CoursRepository;
 import com.gym.gym.service.CoachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,9 @@ public class CoachRestController {
     @Autowired
     private CoachService coachService;
 
+    @Autowired
+    private CoursRepository coursRepository;
+
     // GET : Récupérer tous les coaches
     @GetMapping
     public List<Coach> getAllCoaches() {
@@ -32,10 +37,23 @@ public class CoachRestController {
     }
 
     // POST : Ajouter un nouveau coach
-    @PostMapping
+    @PostMapping("/createCoach")
     public ResponseEntity<Coach> createCoach(@RequestBody Coach coach) {
-        Coach createdCoach = coachService.save(coach);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCoach);
+        try {
+            // Persist courses first if needed
+            for (Cours cours : coach.getCours()) {
+                cours.setCoach(coach);  // Ensure courses are associated with the coach
+                coursRepository.save(cours); // Persist courses
+            }
+
+            // Now save the coach
+            Coach createdCoach = coachService.save(coach);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdCoach);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the error for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // Return appropriate error response
+        }
     }
 
     // PUT : Mettre à jour un coach existant

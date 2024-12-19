@@ -5,6 +5,8 @@ import com.gym.gym.model.ModelAbonnement;
 import com.gym.gym.model.User;
 import com.gym.gym.repository.AbonnementRepository;
 import com.gym.gym.service.AbonnementService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.gym.gym.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/abonnement")
 public class AbonnementController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbonnementController.class);
 
     @Autowired
     private AbonnementService abonnementService;
@@ -32,16 +36,20 @@ public class AbonnementController {
      * @param id The ID of the abonnement.
      * @return ResponseEntity with the abonnement data.
      */
+
     @GetMapping("/{id}")
     public ResponseEntity<Abonnement> getAbonnement(@PathVariable Long id) {
+        logger.info("Received request to get abonnement with id: {}", id);
+
         Optional<Abonnement> abonnement = abonnementRepository.findById(id);
         if (abonnement.isPresent()) {
+            logger.info("Abonnement found: {}", abonnement.get());
             return ResponseEntity.ok(abonnement.get());
         } else {
+            logger.warn("Abonnement with id {} not found", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
     /**
      * Create a new abonnement.
      *
@@ -50,25 +58,32 @@ public class AbonnementController {
      * @param period The subscription period (in months).
      * @return ResponseEntity indicating success or failure.
      */
-    @PostMapping
+    @PostMapping("/createAbonnement")
     public ResponseEntity<String> createAbonnement(
             @RequestParam Long userId,
             @RequestParam Long planId,
             @RequestParam int period) {
 
-        // Find user and model abonnement (plan)
-        User user = userService.findById(userId);
-        Optional<Abonnement> modelAbonnement = abonnementRepository.findById(planId);  // Use ModelAbonnementRepository
+        try {
+            // Find user and model abonnement (plan)
+            User user = userService.findById(userId);
+            Optional<Abonnement> modelAbonnement = abonnementRepository.findById(planId);  // Use ModelAbonnementRepository
 
-        if (user != null && modelAbonnement.isPresent()) {
-            abonnementService.save(user, modelAbonnement.get().getModelAbonnement(), period);  // Use .get() to retrieve the ModelAbonnement object
-            return ResponseEntity.status(HttpStatus.CREATED).body("Abonnement created successfully.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User or ModelAbonnement not found.");
+            // Check if both user and model abonnement are found
+            if (user != null && modelAbonnement.isPresent()) {
+                abonnementService.save(user, modelAbonnement.get().getModelAbonnement(), period);  // Use .get() to retrieve the ModelAbonnement object
+                return ResponseEntity.status(HttpStatus.CREATED).body("Abonnement created successfully.");
+            } else {
+                // Return error if user or abonnement is not found
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User or ModelAbonnement not found.");
+            }
+        } catch (Exception e) {
+            // Catch any unexpected exceptions and log the error
+            e.printStackTrace();  // Optionally log this using a logger (e.g., SLF4J)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the request.");
         }
+
     }
-
-
     /**
      * Update an existing abonnement.
      *

@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
+
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${adem.app.jwtSecret}")
@@ -18,32 +19,62 @@ public class JwtUtils {
     @Value("${adem.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    // Generates JWT token from the username
+    /**
+     * Generates JWT token from the username.
+     *
+     * @param username The username to include in the JWT.
+     * @return the generated JWT token.
+     */
     public String generateJwtToken(String username) {
+        // Log the creation of the token
+        logger.debug("Generating JWT token for username: {}", username);
+
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+                .setSubject(username) // Set the subject (username)
+                .setIssuedAt(new Date()) // Set the issued date
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)) // Set expiration time
+                .signWith(SignatureAlgorithm.HS512, jwtSecret) // Sign the token using the secret
+                .compact(); // Generate the JWT compact representation
     }
 
-    // Extracts username from the JWT token
+    /**
+     * Extracts the username from the JWT token.
+     *
+     * @param token The JWT token.
+     * @return the extracted username.
+     */
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        // Log the process of extracting username
+        logger.debug("Extracting username from JWT token.");
+
+        try {
+            return Jwts.parser()
+                    .setSigningKey(jwtSecret)
+                    .parseClaimsJws(token) // Parse the JWT and get the body
+                    .getBody()
+                    .getSubject(); // Return the subject (username)
+        } catch (Exception e) {
+            logger.error("Error extracting username from token: {}", e.getMessage());
+            return null; // In case of error, return null
+        }
     }
 
-    // Validates the JWT token
+    /**
+     * Validates the JWT token.
+     *
+     * @param authToken The JWT token to validate.
+     * @return true if the token is valid, false otherwise.
+     */
     public boolean validateJwtToken(String authToken) {
         try {
+            // Log the validation attempt
+            logger.debug("Validating JWT token.");
+
             Jwts.parser()
                     .setSigningKey(jwtSecret)
-                    .parseClaimsJws(authToken);
-            return true;
+                    .parseClaimsJws(authToken); // Parse the token
+
+            return true; // If no exception is thrown, the token is valid
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
@@ -55,6 +86,8 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
+
+        // If any exception is caught, return false indicating invalid token
         return false;
     }
 }
