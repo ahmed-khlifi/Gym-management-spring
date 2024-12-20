@@ -41,17 +41,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div th:each="club: ${clubs}"
                             class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200 text-left border border-gray-100 hover:border-purple-200">
-                            <h3 class="text-xl font-semibold text-gray-900" th:text="${club.getNom()}" >
+                            <h3 class="text-xl font-semibold text-gray-900" th:text="${club.getNom()}" />
                             <div class="mt-2 flex items-center text-gray-600">
                                 <svg class="w-4 h-4 mr-2" data-lucide="map-pin"></svg>
-                                <span th:text="${club.getAdresse()}" >
+                                <span th:text="${club.getAdresse()}">
                             </div>
-                            <!-- <div class="mt-1 flex items-center text-gray-600">
+                            <div class="mt-1 flex items-center text-gray-600">
                                 <svg class="w-4 h-4 mr-2" data-lucide="users"></svg>
                                 <span>150 members</span>
-                            </div> -->
-                            <a th:href="@'/cours/create?step=2&clubId=' + $club.getId()"
-                                class="mt-4 flex items-center text-purple-600 font-medium">
+                            </div>
+                            <a th:href="@{'/cours/create?step=2&clubId=' + ${club.getId()}}"
+                                class="mt-4 flex items-center text-purple-600 font-medium cursor-pointer">
                                 Create course here
                                 <svg class="ml-2 w-4 h-4" data-lucide="arrow-right"></svg>
                             </a>
