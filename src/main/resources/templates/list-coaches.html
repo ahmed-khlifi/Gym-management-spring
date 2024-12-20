@@ -5,6 +5,25 @@
     <title>Coach List</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<nav class="bg-blue-600 text-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-bold">Gym Admin</a>
+                <div class="ml-10 space-x-4">
+                    <a href="/user/all" class="text-sm font-medium hover:text-gray-200">Manage Users</a>
+                    <a href="/coaches" class="text-sm font-medium hover:text-gray-200">Manage Coaches</a>
+                    <a href="/club/all" class="text-sm font-medium hover:text-gray-200" clubs</a>
+                    <a href="/cours/create" class="text-sm font-medium hover:text-gray-200" > New Course</a>
+                    <a href="/user/add-member" class="text-sm font-medium hover:text-gray-200" New Membership</a>
+                </div>
+            </div>
+            <!--            <div>-->
+            <!--                <a href="/logout" class="text-sm font-medium hover:text-gray-200">Logout</a>-->
+            <!--            </div>-->
+        </div>
+    </div>
+</nav>
 <body class="bg-gray-100 py-8">
 
 <div class="container mx-auto px-4">
@@ -41,10 +60,10 @@
                     <span th:text="${coach.prixCours}"></span>
                 </td>
                 <!-- Actions -->
-                <td class="px-4 py-2 text-sm">
-                    <a th:href="@{/coaches/{id}(id=${coach.id})}" class="text-blue-500 hover:text-blue-700">View</a> |
-                    <a th:href="@{/coaches/{id}/edit(id=${coach.id})}" class="text-yellow-500 hover:text-yellow-700">Edit Price</a>
-                </td>
+<!--                <td class="px-4 py-2 text-sm">-->
+<!--                    <a th:href="@{/coaches/{id}(id=${coach.id})}" class="text-blue-500 hover:text-blue-700">View</a> |-->
+<!--                    <a th:href="@{/coaches/{id}/edit(id=${coach.id})}" class="text-yellow-500 hover:text-yellow-700">Edit Price</a>-->
+<!--                </td>-->
             </tr>
             </tbody>
         </table>

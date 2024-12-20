@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin Dashboard</title>
 </head>
+
+<body class="min-h-screen bg-gray-100">
+<!-- Navbar -->
 <nav class="bg-blue-600 text-white shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
@@ -25,17 +29,30 @@
         </div>
     </div>
 </nav>
-<body>
-    <div>
-        <h1>List of users</h1>
-        <!-- Map users -->
-        <ul>
-            <!-- <li th:each="user : ${users}" th:text="${user.name}"></li> -->
-            <div th:each="user : ${users}">
-                <li th:text="${user.nom}"></li>
+
+<!-- Dashboard Content -->
+<main class="py-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Users Card -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h2 class="text-lg font-bold text-gray-700">Total Users</h2>
+                <p class="mt-2 text-3xl font-semibold text-blue-600" th:text="${totalUsers}"></p>
             </div>
-        </ul>
+            <!-- Coaches Card -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h2 class="text-lg font-bold text-gray-700">Total Coaches</h2>
+                <p class="mt-2 text-3xl font-semibold text-blue-600" th:text="${totalCoaches}"></p>
+            </div>
+            <!-- Courses Card -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h2 class="text-lg font-bold text-gray-700">Total Courses</h2>
+                <p class="mt-2 text-3xl font-semibold text-blue-600" th:text="${totalCourses}"></p>
+            </div>
+        </div>
     </div>
+</main>
 </body>
 
 </html>

@@ -7,29 +7,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Gym Members</title>
 </head>
-<nav class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-5">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="flex space-x-8">
-                    <a th:href="@{'/user/all'}"
-                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-blue-500 text-gray-900">
-                        Members
-                    </a>
-                    <a th:href="@{'/club/all'}"
-                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-blue-500 text-gray-900">
-                        clubs
-                    </a>
-                    <a th:href="@{'/user/add-member'}"
-                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                        New Membership
-                    </a>
-                    <a th:href="@{'/cours/create'}"
-                        class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700">
-                        New Course
-                    </a>
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-bold">Gym Admin</a>
+                <div class="ml-10 space-x-4">
+                    <a href="/user/all" class="text-sm font-medium hover:text-gray-200">Manage Users</a>
+                    <a href="/coaches" class="text-sm font-medium hover:text-gray-200">Manage Coaches</a>
+                    <a href="/club/all" class="text-sm font-medium hover:text-gray-200" clubs</a>
+                    <a href="/cours/create" class="text-sm font-medium hover:text-gray-200" > New Course</a>
+                    <a href="/user/add-member" class="text-sm font-medium hover:text-gray-200" New Membership</a>
                 </div>
             </div>
+            <!--            <div>-->
+            <!--                <a href="/logout" class="text-sm font-medium hover:text-gray-200">Logout</a>-->
+            <!--            </div>-->
         </div>
     </div>
 </nav>
