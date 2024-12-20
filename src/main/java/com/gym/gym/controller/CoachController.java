@@ -39,8 +39,10 @@ public class CoachController {
         return "list-coaches";
     }
 
+
+
     // Get details of a single coach
-    @GetMapping("/details/{id}")
+    @GetMapping("/{id}")
     public String getCoachDetails(@PathVariable Long id, Model model) {
         Coach coach = coachService.findById(id);
         model.addAttribute("coach", coach);
