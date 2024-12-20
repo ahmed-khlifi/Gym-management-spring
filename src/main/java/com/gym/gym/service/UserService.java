@@ -85,4 +85,10 @@ public class UserService {
         }
         return user.getRole() == Role.COACH;
     }
+
+    public long countAllUsers() {
+        return userRepository.count();
+    }
+
+
 }

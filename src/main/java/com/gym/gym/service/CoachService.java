@@ -63,4 +63,8 @@ public class CoachService {
         return coachRepository.findByUser_Id(userId).isPresent();
     }
 
+    public long countAllCoaches() {
+        return coachRepository.count();
+    }
+
 }

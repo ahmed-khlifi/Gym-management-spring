@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequestMapping("/subscriptions")
 @Controller
 public class AbonnementController {
 
@@ -24,14 +26,14 @@ public class AbonnementController {
     @Autowired
     private ModelAbonnementService modelAbonnementService;
 
-    @GetMapping("/subscriptions/add")
+    @GetMapping("/add")
     public String showAddAbonnementForm(Model model) {
         model.addAttribute("users", userService.findAll()); // Liste des utilisateurs
         model.addAttribute("plans", modelAbonnementService.findAll()); // Liste des plans d'abonnement
         return "add_abonnement";
     }
 
-    @PostMapping("/subscriptions/add")
+    @PostMapping("/add")
     public String addAbonnement(Long user_id, Long model_abonnement_id, int period) {
         User user = userService.findById(user_id);
 
@@ -39,6 +41,6 @@ public class AbonnementController {
 
         abonnementService.save(user, modelAbonnement, period);
 
-        return "redirect:/subscriptions"; 
+        return "redirect:/add_abonnement";
     }
 }
