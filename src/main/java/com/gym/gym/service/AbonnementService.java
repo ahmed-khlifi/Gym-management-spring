@@ -35,32 +35,19 @@ public class AbonnementService {
         abonnementRepository.save(abonnement);
     }
 
-    /**
-     * Update user subscription, change plan and period
-     * steps:
-     * - get the subscription by id
-     * - update the plan and period
-     * - update the price
-     * - update the end date
-     * - save the subscription
-     * 
-     */
+   
     public void updateAbonnementUser(Long id, Long planId, int period) {
         Abonnement abonnement = abonnementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Abonnement not found"));
 
-        // plan is the same and period is different
-        // update the period and the price ( comulative price )
         if (abonnement.getModelAbonnement().getId() == planId && abonnement.getDuree() != period) {
             abonnement.setDuree(period);
-            // set the new price
+
             float newPrice = (abonnement.getModelAbonnement().getPrix() * period) + abonnement.getPrix();
             abonnement.setPrix(newPrice);
         }
-        // plan is different
-        // update the plan, period and the price
+
         else if (abonnement.getModelAbonnement().getId() != planId) {
-            // get new plan and affect it to the subscription
             ModelAbonnement modelAbonnement = modelAbonnementRepository.findById(planId)
                     .orElseThrow(() -> new RuntimeException("ModelAbonnement not found"));
 
