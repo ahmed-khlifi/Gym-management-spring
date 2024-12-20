@@ -30,8 +30,4 @@ public class CoursService {
         return coursRepository.findCoursesByClubIdForCurrentWeek(clubId);
     }
 
-    public long countAllCourses() {
-        return coursRepository.count();
-    }
-
 }
