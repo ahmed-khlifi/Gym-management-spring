@@ -24,7 +24,6 @@ public class ModelAbonnement {
     @Column(nullable = false)
     private float prix;
 
-    // Relation avec la table Abonnement
     @OneToMany(mappedBy = "modelAbonnement", cascade = CascadeType.ALL)
     private List<Abonnement> abonnements = new ArrayList<>();
 
